@@ -47,10 +47,9 @@ public class PokemonControllerImpl implements PokemonController {
 	@Override
 	public ResponseEntity<Mono<Pokemon>> savePokemon(final PokemonRequest request) {
 		final Mono<Pokemon> saved = service.save(request.toPokemon());
-		final Mono<String> id = saved.map(Pokemon::getId);
 		
 		return ResponseEntity.created(
-					UriComponentsBuilder.fromPath("/api/pokeman/{id}").buildAndExpand(id).toUri()
+					UriComponentsBuilder.fromPath("/api/pokeman/{id}").buildAndExpand(saved.map(Pokemon::getId)).toUri()
 				).body(saved);
     }
 	

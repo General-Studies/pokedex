@@ -10,6 +10,8 @@ import com.jetherrodrigues.pokedex.domain.pokemon.PokemonRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static com.jetherrodrigues.pokedex.domain.exceptions.FormattedDomainErrorMessage.POKEMON_NOT_FOUND;
+
 @Service
 public class PokemonMongoAdapter implements PokemonRepository {
 
@@ -25,7 +27,7 @@ public class PokemonMongoAdapter implements PokemonRepository {
 	public Mono<Pokemon> findById(final String id) {
 		return repository.findById(id)
 				.map(PokemonDocument::toPokemon)
-				.onErrorResume(e -> Mono.error(new NotFoundException(String.format("The Pokemon [Id: %s] was not foundd!", id))));
+				.onErrorResume(e -> Mono.error(new NotFoundException(String.format(POKEMON_NOT_FOUND.getDescription(), id))));
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class PokemonMongoAdapter implements PokemonRepository {
 		            return repository.save(existingPokemon);
 		        })
 		        .map(PokemonDocument::toPokemon)
-		        .onErrorResume(e -> Mono.error(new NotFoundException(String.format("The Pokemon [Id: %s] was not foundd!", entity.getId()))));
+		        .onErrorResume(e -> Mono.error(new NotFoundException(String.format(POKEMON_NOT_FOUND.getDescription(), entity.getId()))));
 	}
 
 	@Override
@@ -54,6 +56,6 @@ public class PokemonMongoAdapter implements PokemonRepository {
 		return repository.findById(id)
 		        .flatMap(existingPokemon ->
 		                repository.delete(existingPokemon)
-		        ).onErrorResume(e -> Mono.error(new NotFoundException(String.format("The Pokemon [Id: %s] was not foundd!", id))));		
+		        ).onErrorResume(e -> Mono.error(new NotFoundException(String.format(POKEMON_NOT_FOUND.getDescription(), id))));		
 	}
 }

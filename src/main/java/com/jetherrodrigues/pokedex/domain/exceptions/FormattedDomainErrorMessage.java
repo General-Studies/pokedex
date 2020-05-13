@@ -1,7 +1,7 @@
 package com.jetherrodrigues.pokedex.domain.exceptions;
 
 public enum FormattedDomainErrorMessage {
-	POKEMON_NOT_FOUND("Pokemon [id: %s] not found!");
+	POKEMON_NOT_FOUND("The Pokemon [Id: %s] was not foundd!");
 	
 	private String description;
 
