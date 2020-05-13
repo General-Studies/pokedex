@@ -1,5 +1,7 @@
 package com.jetherrodrigues.pokedex.application.web;
 
+import javax.validation.Valid;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,10 +29,10 @@ public interface PokemonController {
     public Mono<ResponseEntity<Pokemon>> getPokemonById(@PathVariable final String id);
 	
 	@PostMapping(produces = "application/vnd.pokedex.pokemon_create-v1+json")
-    public ResponseEntity<Mono<Pokemon>> savePokemon(@RequestBody final PokemonRequest request);
+    public ResponseEntity<Mono<Pokemon>> savePokemon(@RequestBody @Valid final PokemonRequest request);
 	
 	@PutMapping(produces = "application/vnd.pokedex.pokemon_update-v1+json")
-    public Mono<ResponseEntity<Pokemon>> updatePokemon(@RequestBody final PokemonRequest request);
+    public Mono<ResponseEntity<Pokemon>> updatePokemon(@RequestBody @Valid final PokemonRequest request);
 	
 	@DeleteMapping(value = "{id}", produces = "application/vnd.pokedex.pokemon_delete-v1+json")
     public Mono<ResponseEntity<Void>> deletePokemon(@PathVariable(value = "id") final String id);
